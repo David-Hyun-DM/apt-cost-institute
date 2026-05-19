@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공사비계산기 - 아파트공사비연구원</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="top-bar"><div class="container"><a href="#">이메일</a><a href="#">사이트맵</a><a href="#">English</a></div></div>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">연</div>
+        <div class="logo-text">
+          <h1>아파트공사비연구원</h1>
+          <p>Korea Apartment Construction Cost Research Institute</p>
+        </div>
+      </a>
+      <button class="menu-toggle">☰</button>
+      <nav><ul>
+        <li><a href="index.html">홈</a></li>
+        <li><a href="about.html">기관소개</a></li>
+        <li><a href="research.html">연구자료</a></li>
+        <li><a href="calculator.html" class="active">공사비계산기</a></li>
+        <li><a href="news.html">공지사항</a></li>
+        <li><a href="contact.html">상담창구</a></li>
+      </ul></nav>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">홈 &gt; <span>공사비계산기</span></div>
+    <h2>공사비 계산기</h2>
+    <p>건물 유형과 면적을 입력하면 예상 공사비를 산출합니다</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div style="background:#fff3e0; border-left:4px solid var(--accent); padding:14px 20px; border-radius:4px; margin-bottom:32px; font-size:14px; color:#7a4500;">
+      ※ 본 계산기는 참고용 추정치이며, 실제 공사비는 현장 여건·시공사·자재 등에 따라 달라질 수 있습니다.
+    </div>
+    <div class="calc-section">
+      <div class="calc-grid">
+        <!-- 입력 -->
+        <div>
+          <h3 style="font-size:18px; color:var(--primary); font-weight:800; margin-bottom:24px;">📋 공사 정보 입력</h3>
+          <div class="form-group">
+            <label>건물 유형</label>
+            <select id="buildType">
+              <option value="apt">아파트</option>
+              <option value="villa">빌라 / 다세대</option>
+              <option value="officetel">오피스텔</option>
+              <option value="commercial">상업시설</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>건물 등급</label>
+            <select id="grade">
+              <option value="basic">일반형 (기본사양)</option>
+              <option value="standard" selected>표준형 (일반사양)</option>
+              <option value="premium">고급형 (프리미엄)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>연면적 (㎡)</label>
+            <input type="number" id="area" placeholder="예: 3000" min="1">
+          </div>
+          <div class="form-group">
+            <label>지역</label>
+            <select id="region">
+              <option value="seoul">서울특별시</option>
+              <option value="metro">수도권 (경기·인천)</option>
+              <option value="metro-city">광역시</option>
+              <option value="other">기타 지역</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="width:100%; padding:14px; font-size:15px;" onclick="calculate()">
+            🧮 공사비 산출하기
+          </button>
+        </div>
+
+        <!-- 결과 -->
+        <div>
+          <div class="calc-result" id="calc-result" style="display:none;">
+            <h3>📊 예상 공사비 산출 결과</h3>
+            <div class="result-row">
+              <span>적용 단가</span>
+              <span class="result-val" id="r-unit">-</span>
+            </div>
+            <div class="result-row">
+              <span>기본 공사비</span>
+              <span class="result-val" id="r-base">-</span>
+            </div>
+            <div class="result-row">
+              <span>설계비 (4%)</span>
+              <span class="result-val" id="r-design">-</span>
+            </div>
+            <div class="result-row">
+              <span>감리비 (2.5%)</span>
+              <span class="result-val" id="r-supervision">-</span>
+            </div>
+            <div class="result-row">
+              <span>예비비 (5%)</span>
+              <span class="result-val" id="r-contingency">-</span>
+            </div>
+            <div class="result-row total">
+              <span>총 예상 공사비</span>
+              <span class="result-val" id="r-total">-</span>
+            </div>
+            <div style="margin-top:20px; font-size:12px; color:var(--text-muted); line-height:1.6;">
+              * 단가 기준: 아파트공사비연구원 2025년 표준단가<br>
+              * 부가세(VAT) 별도
+            </div>
+          </div>
+          <div id="calc-placeholder" style="background:#f0f5ff; border:2px dashed #a0b8e0; border-radius:10px; padding:60px 28px; text-align:center; color:#7090b8;">
+            <div style="font-size:48px; margin-bottom:16px;">🧮</div>
+            <p style="font-size:15px; font-weight:600;">왼쪽에 정보를 입력하고<br>산출하기 버튼을 클릭하세요</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 단가 기준표 -->
+    <div style="margin-top:48px;">
+      <div class="section-title" style="margin-bottom:8px;">2025년 표준 공사비 단가표</div>
+      <div class="section-subtitle">아파트공사비연구원 기준 (단위: 만원/㎡, VAT 별도)</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>건물 유형</th>
+            <th>일반형</th>
+            <th>표준형</th>
+            <th>고급형</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>아파트</td><td>320만원</td><td>380만원</td><td>460만원</td></tr>
+          <tr><td>빌라 / 다세대</td><td>260만원</td><td>310만원</td><td>380만원</td></tr>
+          <tr><td>오피스텔</td><td>290만원</td><td>350만원</td><td>420만원</td></tr>
+          <tr><td>상업시설</td><td>350만원</td><td>420만원</td><td>510만원</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-logo"><h3>아파트공사비연구원</h3><p>공정하고 신뢰할 수 있는 공사비 연구를 통해<br>국민 주거 환경 개선에 기여합니다.</p></div>
+      <div class="footer-col"><h4>기관소개</h4><ul><li><a href="about.html">연구원 소개</a></li><li><a href="about.html#mission">설립목적</a></li><li><a href="about.html#org">조직도</a></li></ul></div>
+      <div class="footer-col"><h4>연구자료</h4><ul><li><a href="research.html">연구보고서</a></li><li><a href="research.html">통계자료</a></li><li><a href="research.html">정책연구</a></li></ul></div>
+      <div class="footer-col"><h4>이용안내</h4><ul><li><a href="calculator.html">공사비계산기</a></li><li><a href="news.html">공지사항</a></li><li><a href="contact.html">상담창구</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 아파트공사비연구원. All rights reserved.</span><span>개인정보처리방침 | 이용약관</span></div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal"><div class="modal"><h3 id="modal-title"></h3><p id="modal-msg"></p><button class="btn" onclick="closeModal()">확인</button></div></div>
+<script src="js/main.js"></script>
+<script>
+const _calculate = calculate;
+calculate = function() {
+  _calculate();
+  const result = document.getElementById('calc-result');
+  if (result.style.display !== 'none') {
+    document.getElementById('calc-placeholder').style.display = 'none';
+  }
+};
+</script>
+</body>
+</html>

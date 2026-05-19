@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상담창구 - 아파트공사비연구원</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="top-bar"><div class="container"><a href="#">이메일</a><a href="#">사이트맵</a><a href="#">English</a></div></div>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">연</div>
+        <div class="logo-text">
+          <h1>아파트공사비연구원</h1>
+          <p>Korea Apartment Construction Cost Research Institute</p>
+        </div>
+      </a>
+      <button class="menu-toggle">☰</button>
+      <nav><ul>
+        <li><a href="index.html">홈</a></li>
+        <li><a href="about.html">기관소개</a></li>
+        <li><a href="research.html">연구자료</a></li>
+        <li><a href="calculator.html">공사비계산기</a></li>
+        <li><a href="news.html">공지사항</a></li>
+        <li><a href="contact.html" class="active">상담창구</a></li>
+      </ul></nav>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">홈 &gt; <span>상담창구</span></div>
+    <h2>상담창구</h2>
+    <p>공사비 관련 문의사항을 남겨주시면 전문가가 답변드립니다</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- 연락처 정보 -->
+      <div class="contact-info">
+        <h3>📞 연락처 안내</h3>
+        <div class="contact-detail">
+          <div class="icon">📍</div>
+          <div>
+            <h4>주소</h4>
+            <p>서울특별시 강남구 테헤란로 123<br>공사비연구원 빌딩 7층</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="icon">📞</div>
+          <div>
+            <h4>전화</h4>
+            <p>02-1234-5678</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="icon">📠</div>
+          <div>
+            <h4>팩스</h4>
+            <p>02-1234-5679</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="icon">✉️</div>
+          <div>
+            <h4>이메일</h4>
+            <p>info@apt-cost.or.kr</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="icon">🕐</div>
+          <div>
+            <h4>운영시간</h4>
+            <p>평일 09:00 ~ 18:00<br><span style="font-size:13px; color:#7aa8d4;">점심 12:00 ~ 13:00 제외</span></p>
+          </div>
+        </div>
+
+        <div style="margin-top:28px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.2);">
+          <p style="font-size:13px; color:#aec6e8; line-height:1.8;">
+            ※ 온라인 상담 신청 후 담당 연구원이<br>
+            2~3 영업일 이내에 답변드립니다.<br>
+            긴급한 사항은 전화 문의 바랍니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 상담 신청 폼 -->
+      <div class="contact-form">
+        <h3>💬 온라인 상담 신청</h3>
+        <form onsubmit="submitConsult(event)">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>성명 *</label>
+              <input type="text" placeholder="홍길동" required>
+            </div>
+            <div class="form-group">
+              <label>연락처 *</label>
+              <input type="tel" placeholder="010-0000-0000" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>이메일 *</label>
+            <input type="email" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>소속 / 기관명</label>
+            <input type="text" placeholder="회사명 또는 기관명 (선택)">
+          </div>
+          <div class="form-group">
+            <label>상담 유형 *</label>
+            <select required>
+              <option value="">선택해주세요</option>
+              <option>공사비 산정 문의</option>
+              <option>연구보고서 문의</option>
+              <option>공사비 분쟁 상담</option>
+              <option>기타 문의</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>문의 내용 *</label>
+            <textarea placeholder="문의하실 내용을 상세히 작성해주세요." required></textarea>
+          </div>
+          <div style="margin-bottom:20px; display:flex; align-items:flex-start; gap:10px;">
+            <input type="checkbox" id="privacy" required style="width:auto; margin-top:3px;">
+            <label for="privacy" style="font-size:13px; color:var(--text-muted); font-weight:400; cursor:pointer;">
+              <strong style="color:var(--text);">[필수]</strong> 개인정보 수집·이용에 동의합니다.<br>
+              <span>수집항목: 성명, 연락처, 이메일 / 보유기간: 상담 종료 후 1년</span>
+            </label>
+          </div>
+          <button type="submit" class="btn-submit">상담 신청하기</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div style="margin-top:60px;">
+      <div class="section-title" style="margin-bottom:8px;">자주 묻는 질문</div>
+      <div class="section-subtitle">상담 전 먼저 확인해보세요</div>
+      <div id="faq-list">
+        <div class="faq-item" style="background:white; border-radius:8px; margin-bottom:10px; box-shadow:0 1px 6px rgba(0,0,0,0.06); overflow:hidden;">
+          <button onclick="toggleFaq(this)" style="width:100%; text-align:left; padding:18px 24px; background:none; border:none; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; color:var(--text); display:flex; justify-content:space-between; align-items:center;">
+            <span>Q. 공사비 계산기 결과는 얼마나 정확한가요?</span>
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-body" style="display:none; padding:0 24px 18px; font-size:14px; color:var(--text-muted); line-height:1.8;">
+            본 계산기는 연구원의 표준단가를 기반으로 한 참고용 추정치입니다. 실제 공사비는 지역, 시공사, 자재 선택, 현장 여건 등에 따라 ±20~30% 차이가 날 수 있습니다. 정확한 공사비 산정은 온라인 상담을 통해 문의해 주세요.
+          </div>
+        </div>
+        <div class="faq-item" style="background:white; border-radius:8px; margin-bottom:10px; box-shadow:0 1px 6px rgba(0,0,0,0.06); overflow:hidden;">
+          <button onclick="toggleFaq(this)" style="width:100%; text-align:left; padding:18px 24px; background:none; border:none; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; color:var(--text); display:flex; justify-content:space-between; align-items:center;">
+            <span>Q. 연구보고서는 누구나 무료로 다운로드할 수 있나요?</span>
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-body" style="display:none; padding:0 24px 18px; font-size:14px; color:var(--text-muted); line-height:1.8;">
+            연구원에서 발간하는 주요 보고서는 회원 가입 없이 무료로 다운로드 가능합니다. 일부 특수 용역 보고서는 별도 신청이 필요할 수 있습니다.
+          </div>
+        </div>
+        <div class="faq-item" style="background:white; border-radius:8px; margin-bottom:10px; box-shadow:0 1px 6px rgba(0,0,0,0.06); overflow:hidden;">
+          <button onclick="toggleFaq(this)" style="width:100%; text-align:left; padding:18px 24px; background:none; border:none; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; color:var(--text); display:flex; justify-content:space-between; align-items:center;">
+            <span>Q. 공사비 분쟁 시 연구원의 도움을 받을 수 있나요?</span>
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-body" style="display:none; padding:0 24px 18px; font-size:14px; color:var(--text-muted); line-height:1.8;">
+            네, 공사비 분쟁 관련 자문 서비스를 제공합니다. 상담창구를 통해 분쟁 유형과 내용을 남겨주시면 전문 연구원이 검토 후 안내드립니다.
+          </div>
+        </div>
+        <div class="faq-item" style="background:white; border-radius:8px; margin-bottom:10px; box-shadow:0 1px 6px rgba(0,0,0,0.06); overflow:hidden;">
+          <button onclick="toggleFaq(this)" style="width:100%; text-align:left; padding:18px 24px; background:none; border:none; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; color:var(--text); display:flex; justify-content:space-between; align-items:center;">
+            <span>Q. 상담 답변은 얼마나 걸리나요?</span>
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-body" style="display:none; padding:0 24px 18px; font-size:14px; color:var(--text-muted); line-height:1.8;">
+            온라인 상담 신청 후 2~3 영업일 이내에 이메일로 답변드립니다. 긴급한 사항은 대표 전화(02-1234-5678)로 문의해 주시기 바랍니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-logo"><h3>아파트공사비연구원</h3><p>공정하고 신뢰할 수 있는 공사비 연구를 통해<br>국민 주거 환경 개선에 기여합니다.</p></div>
+      <div class="footer-col"><h4>기관소개</h4><ul><li><a href="about.html">연구원 소개</a></li><li><a href="about.html#mission">설립목적</a></li><li><a href="about.html#org">조직도</a></li></ul></div>
+      <div class="footer-col"><h4>연구자료</h4><ul><li><a href="research.html">연구보고서</a></li><li><a href="research.html">통계자료</a></li><li><a href="research.html">정책연구</a></li></ul></div>
+      <div class="footer-col"><h4>이용안내</h4><ul><li><a href="calculator.html">공사비계산기</a></li><li><a href="news.html">공지사항</a></li><li><a href="contact.html">상담창구</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 아파트공사비연구원. All rights reserved.</span><span>개인정보처리방침 | 이용약관</span></div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal"><div class="modal"><h3 id="modal-title"></h3><p id="modal-msg"></p><button class="btn" onclick="closeModal()">확인</button></div></div>
+<script src="js/main.js"></script>
+<script>
+function toggleFaq(btn) {
+  const body = btn.nextElementSibling;
+  const arrow = btn.querySelector('.faq-arrow');
+  const isOpen = body.style.display === 'block';
+  body.style.display = isOpen ? 'none' : 'block';
+  arrow.textContent = isOpen ? '▼' : '▲';
+}
+</script>
+</body>
+</html>
