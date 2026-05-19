@@ -96,7 +96,7 @@
       <!-- 상담 신청 폼 -->
       <div class="contact-form">
         <h3>💬 온라인 상담 신청</h3>
-        <form onsubmit="submitConsult(event)" id="consult-form">
+        <form onsubmit="return false;" id="consult-form">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
             <div class="form-group">
               <label>성명 *</label>
@@ -215,25 +215,33 @@ const app = initializeApp({
 });
 const db = getFirestore(app);
 
-document.getElementById('consult-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
+document.getElementById('submit-btn').addEventListener('click', async () => {
+  const name = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const org = document.getElementById('c-org').value.trim();
+  const consultType = document.getElementById('c-type').value;
+  const content = document.getElementById('c-content').value.trim();
+  const privacy = document.getElementById('privacy').checked;
+
+  if (!name || !phone || !email || !consultType || !content) {
+    alert('필수 항목을 모두 입력해주세요.'); return;
+  }
+  if (!privacy) { alert('개인정보 수집·이용에 동의해주세요.'); return; }
+
   const btn = document.getElementById('submit-btn');
   btn.textContent = '접수 중...';
   btn.disabled = true;
   try {
     await addDoc(collection(db, 'consults'), {
-      name: document.getElementById('c-name').value,
-      phone: document.getElementById('c-phone').value,
-      email: document.getElementById('c-email').value,
-      org: document.getElementById('c-org').value,
-      consultType: document.getElementById('c-type').value,
-      content: document.getElementById('c-content').value,
+      name, phone, email, org, consultType, content,
       createdAt: serverTimestamp()
     });
-    showModal('접수 완료', '상담 신청이 접수되었습니다.\n담당자가 2~3일 이내에 연락드리겠습니다.');
-    e.target.reset();
+    document.getElementById('consult-form').reset();
+    alert('상담 신청이 접수되었습니다.\n담당자가 2~3일 이내에 연락드리겠습니다.');
   } catch(err) {
     alert('접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    console.error(err);
   } finally {
     btn.textContent = '상담 신청하기';
     btn.disabled = false;
