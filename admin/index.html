@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 페이지 - 아파트공사비연구원</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- 로그인 화면 -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="icon">연</div>
+      <h1>아파트공사비연구원</h1>
+      <p>관리자 로그인</p>
+    </div>
+    <div class="form-group">
+      <label>이메일</label>
+      <input type="email" id="login-email" placeholder="관리자 이메일">
+    </div>
+    <div class="form-group">
+      <label>비밀번호</label>
+      <input type="password" id="login-pw" placeholder="비밀번호">
+    </div>
+    <button class="btn-login" onclick="doLogin()">로그인</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- 관리자 화면 -->
+<div class="admin-layout" id="admin-screen" style="display:none">
+
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>아파트공사비연구원</h2>
+      <p>관리자 페이지</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">메뉴</div>
+      <div class="nav-item active" data-nav="dashboard" onclick="navigate('dashboard')">
+        <span class="icon">📊</span> 대시보드
+      </div>
+      <div class="nav-item" data-nav="notices" onclick="navigate('notices')">
+        <span class="icon">📢</span> 공지사항 관리
+      </div>
+      <div class="nav-item" data-nav="research" onclick="navigate('research')">
+        <span class="icon">📋</span> 연구자료 관리
+      </div>
+      <div class="nav-item" data-nav="images" onclick="navigate('images')">
+        <span class="icon">🖼️</span> 이미지 관리
+      </div>
+      <div class="nav-item" data-nav="consults" onclick="navigate('consults')">
+        <span class="icon">💬</span> 상담 내역
+      </div>
+      <div class="nav-section" style="margin-top:16px">바로가기</div>
+      <div class="nav-item" onclick="window.open('../index.html')">
+        <span class="icon">🌐</span> 홈페이지 보기
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="font-size:12px;color:#4a7099;margin-bottom:8px" id="user-email"></div>
+      <button class="btn-logout" onclick="doLogout()">로그아웃</button>
+    </div>
+  </aside>
+
+  <!-- 메인 -->
+  <div class="main-content">
+    <div class="topbar">
+      <h1 id="page-title">대시보드</h1>
+      <div class="topbar-info">아파트공사비연구원 관리시스템</div>
+    </div>
+
+    <div class="content-area">
+
+      <!-- 대시보드 -->
+      <div class="page-section active" id="page-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">📢</div>
+            <div>
+              <div class="stat-num" id="stat-notices">0</div>
+              <div class="stat-label">공지사항</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">📋</div>
+            <div>
+              <div class="stat-num" id="stat-research">0</div>
+              <div class="stat-label">연구자료</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">💬</div>
+            <div>
+              <div class="stat-num" id="stat-consults">0</div>
+              <div class="stat-label">상담 접수</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">🖼️</div>
+            <div>
+              <div class="stat-num">∞</div>
+              <div class="stat-label">이미지</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>빠른 작업</h2>
+          </div>
+          <div class="section-card-body" style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="navigate('notices');setTimeout(openNoticeModal,100)">+ 공지사항 작성</button>
+            <button class="btn btn-primary" onclick="navigate('research');setTimeout(openResearchModal,100)">+ 연구자료 등록</button>
+            <button class="btn btn-primary" onclick="navigate('images');setTimeout(openImageModal,100)">+ 이미지 업로드</button>
+            <button class="btn btn-outline" onclick="navigate('consults')">상담 내역 확인</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 공지사항 -->
+      <div class="page-section" id="page-notices">
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>공지사항 목록</h2>
+            <button class="btn btn-primary" onclick="openNoticeModal()">+ 공지사항 추가</button>
+          </div>
+          <div class="section-card-body" style="padding:0">
+            <table class="admin-table">
+              <thead>
+                <tr><th>분류</th><th>제목</th><th>내용 미리보기</th><th>등록일</th><th>관리</th></tr>
+              </thead>
+              <tbody id="notices-tbody">
+                <tr><td colspan="5" style="text-align:center;padding:20px;color:#999">불러오는 중...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 연구자료 -->
+      <div class="page-section" id="page-research">
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>연구자료 목록</h2>
+            <button class="btn btn-primary" onclick="openResearchModal()">+ 자료 추가</button>
+          </div>
+          <div class="section-card-body" style="padding:0">
+            <table class="admin-table">
+              <thead>
+                <tr><th>분류</th><th>제목</th><th>발행일</th><th>파일링크</th><th>관리</th></tr>
+              </thead>
+              <tbody id="research-tbody">
+                <tr><td colspan="5" style="text-align:center;padding:20px;color:#999">불러오는 중...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 이미지 -->
+      <div class="page-section" id="page-images">
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>이미지 관리</h2>
+            <button class="btn btn-primary" onclick="openImageModal()">+ 이미지 추가</button>
+          </div>
+          <div class="section-card-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px" id="images-grid">
+              <p style="color:#999;text-align:center;grid-column:1/-1;padding:20px">불러오는 중...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 상담내역 -->
+      <div class="page-section" id="page-consults">
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>상담 접수 내역</h2>
+          </div>
+          <div class="section-card-body">
+            <div id="consults-list"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 공지사항 모달 -->
+<div class="modal-overlay" id="notice-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="notice-modal-title">공지사항 추가</h3>
+      <button class="modal-close" onclick="closeNoticeModal()">✕</button>
+    </div>
+    <div class="modal-body admin-form">
+      <div class="form-group">
+        <label>분류</label>
+        <select id="notice-type">
+          <option value="새글">새글</option>
+          <option value="공지">공지</option>
+          <option value="안내">안내</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>제목 *</label>
+        <input type="text" id="notice-title" placeholder="공지 제목을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>내용 *</label>
+        <textarea id="notice-content" placeholder="공지 내용을 입력하세요"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeNoticeModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveNotice()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 연구자료 모달 -->
+<div class="modal-overlay" id="research-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="research-modal-title">연구자료 추가</h3>
+      <button class="modal-close" onclick="closeResearchModal()">✕</button>
+    </div>
+    <div class="modal-body admin-form">
+      <div class="form-group">
+        <label>분류</label>
+        <select id="research-category">
+          <option value="연구보고서">연구보고서</option>
+          <option value="통계자료">통계자료</option>
+          <option value="정책연구">정책연구</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>제목 *</label>
+        <input type="text" id="research-title" placeholder="자료 제목">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>발행일</label>
+          <input type="text" id="research-date" placeholder="예: 2025.04">
+        </div>
+        <div class="form-group">
+          <label>파일 URL (PDF 링크)</label>
+          <input type="text" id="research-url" placeholder="https://...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>설명</label>
+        <textarea id="research-desc" placeholder="자료 설명"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeResearchModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveResearch()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 이미지 모달 -->
+<div class="modal-overlay" id="image-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>이미지 추가</h3>
+      <button class="modal-close" onclick="closeImageModal()">✕</button>
+    </div>
+    <div class="modal-body admin-form">
+      <div class="form-group">
+        <label>이미지 이름</label>
+        <input type="text" id="img-name" placeholder="이미지 설명 (선택)">
+      </div>
+      <div class="form-group">
+        <label>이미지 URL *</label>
+        <input type="text" id="img-url" placeholder="https://..." oninput="previewImage()">
+        <p style="font-size:12px;color:#999;margin-top:6px">※ 이미지를 imgur.com, imgbb.com 등에 업로드 후 URL을 붙여넣으세요</p>
+      </div>
+      <div class="img-preview">
+        <img id="img-preview-el" style="display:none;max-width:100%;border-radius:8px;border:1px solid var(--border)">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeImageModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveImage()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toast"></div>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>
