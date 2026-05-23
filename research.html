@@ -3,8 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>연구자료 - 아파트공사비연구원</title>
+  <title>서비스 안내 - 아파트공사비연구원</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 40px;
+    }
+    @media (max-width: 900px) { .service-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .service-grid { grid-template-columns: 1fr; } }
+
+    .service-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border-top: 4px solid var(--primary);
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 32px rgba(0,56,116,0.15);
+    }
+    .service-card-icon {
+      background: linear-gradient(135deg, #003874, #0054a8);
+      text-align: center;
+      padding: 32px 20px 24px;
+      font-size: 52px;
+      line-height: 1;
+    }
+    .service-card-body {
+      padding: 24px 24px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .service-card-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    .service-card-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .service-card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      flex: 1;
+    }
+    .service-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .service-tag {
+      background: #e8f0fb;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .service-card-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      background: #fafbff;
+    }
+    .service-card-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      transition: gap 0.2s;
+    }
+    .service-card-footer a:hover { gap: 10px; color: var(--accent); }
+
+    .service-intro {
+      background: linear-gradient(135deg, #002657, #003874);
+      color: white;
+      border-radius: 14px;
+      padding: 40px 48px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .service-intro-text h3 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+    .service-intro-text p { font-size: 15px; color: #aec6e8; line-height: 1.8; }
+    .service-intro-stat {
+      min-width: 180px;
+      text-align: center;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+    .service-intro-stat .num { font-size: 36px; font-weight: 900; color: #e8820c; }
+    .service-intro-stat .label { font-size: 13px; color: #aec6e8; margin-top: 4px; }
+    @media (max-width: 700px) {
+      .service-intro { flex-direction: column; padding: 28px 24px; gap: 20px; }
+      .service-intro-stat { min-width: auto; width: 100%; }
+    }
+  </style>
 </head>
 <body>
 
@@ -20,7 +133,7 @@
       <nav><ul>
         <li><a href="index.html">홈</a></li>
         <li><a href="about.html">기관소개</a></li>
-        <li><a href="research.html" class="active">연구자료</a></li>
+        <li><a href="research.html" class="active">서비스 안내</a></li>
         <li><a href="calculator.html">공사비계산기</a></li>
         <li><a href="news.html">공지사항</a></li>
         <li><a href="contact.html">상담창구</a></li>
@@ -31,53 +144,174 @@
 
 <div class="page-hero">
   <div class="container">
-    <div class="breadcrumb">홈 &gt; <span>연구자료</span></div>
-    <h2>연구자료</h2>
-    <p>아파트 공사비 관련 연구보고서, 통계자료, 정책연구를 제공합니다</p>
-  </div>
-</div>
-
-<!-- 검색 -->
-<div style="background:white; border-bottom:1px solid var(--border); padding:20px 0;">
-  <div class="container">
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <select id="category-filter" style="padding:10px 14px; border:1.5px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;">
-        <option value="all">전체 분류</option>
-        <option value="report">연구보고서</option>
-        <option value="stats">통계자료</option>
-        <option value="policy">정책연구</option>
-      </select>
-      <input type="text" id="search-input" placeholder="검색어를 입력하세요" style="flex:1; min-width:200px; padding:10px 14px; border:1.5px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;">
-      <button onclick="filterResearch()" style="padding:10px 24px; background:var(--primary); color:white; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;">검색</button>
-    </div>
+    <div class="breadcrumb">홈 &gt; <span>서비스 안내</span></div>
+    <h2>서비스 안내</h2>
+    <p>25년 현장 경험과 빅데이터 기반의 전문 공사비 컨설팅 서비스</p>
   </div>
 </div>
 
 <section class="section">
   <div class="container">
-    <table class="data-table" id="research-table">
-      <thead>
-        <tr>
-          <th style="width:60px">번호</th>
-          <th style="width:100px">분류</th>
-          <th>제목</th>
-          <th style="width:100px">발행일</th>
-          <th style="width:90px">다운로드</th>
-        </tr>
-      </thead>
-      <tbody id="research-body">
-        <tr data-cat="report"><td>15</td><td><span class="tag">연구보고서</span></td><td>2025년 아파트 표준 공사비 분석 보고서</td><td>2025.04</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="stats"><td>14</td><td><span class="tag">통계자료</span></td><td>공사비 지수 분기별 동향 (2025 1Q)</td><td>2025.03</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="policy"><td>13</td><td><span class="tag">정책연구</span></td><td>분양가 상한제와 실제 공사비 격차 연구</td><td>2025.02</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="report"><td>12</td><td><span class="tag">연구보고서</span></td><td>2024년 하반기 공사비 실태조사 보고서</td><td>2024.12</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="stats"><td>11</td><td><span class="tag">통계자료</span></td><td>공사비 지수 연간 통계 (2024)</td><td>2024.12</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="policy"><td>10</td><td><span class="tag">정책연구</span></td><td>친환경 건축 의무화에 따른 공사비 영향 분석</td><td>2024.10</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="report"><td>9</td><td><span class="tag">연구보고서</span></td><td>지역별 공사비 격차 원인 분석 연구</td><td>2024.08</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="stats"><td>8</td><td><span class="tag">통계자료</span></td><td>건설 원자재 가격 동향 및 공사비 전망 (2024 2Q)</td><td>2024.07</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="policy"><td>7</td><td><span class="tag">정책연구</span></td><td>공사비 검증 제도 개선 방안 연구</td><td>2024.05</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-        <tr data-cat="report"><td>6</td><td><span class="tag">연구보고서</span></td><td>수도권 아파트 공사비 단가 비교 분석</td><td>2024.03</td><td><a href="#" class="download-btn" onclick="alert('준비 중입니다.');return false;">PDF</a></td></tr>
-      </tbody>
-    </table>
+
+    <!-- 소개 배너 -->
+    <div class="service-intro">
+      <div class="service-intro-text">
+        <h3>재개발·재건축 공사비, 전문가가 함께합니다</h3>
+        <p>조합의 전문성 부족과 시공사의 설계 변경으로 발생하는 공사비 분쟁.<br>
+          아파트공사비연구원은 정확한 데이터와 법적 지식으로 공정한 해법을 제시합니다.</p>
+      </div>
+      <div class="service-intro-stat">
+        <div class="num">25년+</div>
+        <div class="label">공사비 컨설팅 전문 경력</div>
+      </div>
+    </div>
+
+    <!-- 6개 서비스 카드 -->
+    <div class="section-title" style="margin-top:56px;">6대 핵심 서비스</div>
+    <div class="section-subtitle">공사비 전 과정을 아우르는 전문 서비스를 제공합니다</div>
+
+    <div class="service-grid">
+
+      <!-- 1. 아파트 공사비 검증 -->
+      <div class="service-card">
+        <div class="service-card-icon">🔍</div>
+        <div class="service-card-body">
+          <div class="service-card-num">SERVICE 01</div>
+          <div class="service-card-title">아파트 공사비 검증</div>
+          <div class="service-card-desc">
+            시공사가 제출한 공사비 내역서를 전문적으로 검토·분석하여 적정성 여부를 객관적으로 판단합니다.
+            표준단가 데이터베이스 및 빅데이터 기반의 정밀 검증으로 과다·누락 항목을 정확히 파악합니다.
+          </div>
+          <div class="service-card-tags">
+            <span class="service-tag">내역서 분석</span>
+            <span class="service-tag">단가 적정성</span>
+            <span class="service-tag">물량 검토</span>
+          </div>
+        </div>
+        <div class="service-card-footer">
+          <a href="contact.html">상담 신청하기 →</a>
+        </div>
+      </div>
+
+      <!-- 2. 아파트 공사비 협상 -->
+      <div class="service-card">
+        <div class="service-card-icon">🤝</div>
+        <div class="service-card-body">
+          <div class="service-card-num">SERVICE 02</div>
+          <div class="service-card-title">아파트 공사비 협상</div>
+          <div class="service-card-desc">
+            조합과 시공사 간 공사비 분쟁 발생 시, 정확한 데이터와 전문 지식을 바탕으로 협상 전략을 수립하고
+            양측이 수용할 수 있는 합리적인 합의를 이끌어냅니다.
+          </div>
+          <div class="service-card-tags">
+            <span class="service-tag">분쟁 조정</span>
+            <span class="service-tag">협상 전략</span>
+            <span class="service-tag">합의 도출</span>
+          </div>
+        </div>
+        <div class="service-card-footer">
+          <a href="contact.html">상담 신청하기 →</a>
+        </div>
+      </div>
+
+      <!-- 3. 아파트 내역서 작성 -->
+      <div class="service-card">
+        <div class="service-card-icon">📋</div>
+        <div class="service-card-body">
+          <div class="service-card-num">SERVICE 03</div>
+          <div class="service-card-title">아파트 내역서 작성</div>
+          <div class="service-card-desc">
+            재건축·재개발 사업의 공사비 내역서를 표준단가와 CAD 적산 시스템 기반으로 정확하게 작성합니다.
+            기본 도면만으로 세부 내역서까지 산출하는 특허 기술을 보유하고 있습니다.
+          </div>
+          <div class="service-card-tags">
+            <span class="service-tag">견적 작성</span>
+            <span class="service-tag">CAD 적산</span>
+            <span class="service-tag">개산견적</span>
+          </div>
+        </div>
+        <div class="service-card-footer">
+          <a href="contact.html">상담 신청하기 →</a>
+        </div>
+      </div>
+
+      <!-- 4. 건설 소송 지원 -->
+      <div class="service-card">
+        <div class="service-card-icon">⚖️</div>
+        <div class="service-card-body">
+          <div class="service-card-num">SERVICE 04</div>
+          <div class="service-card-title">건설 소송 지원</div>
+          <div class="service-card-desc">
+            공사비 관련 민·형사 소송 및 중재 절차에서 전문 감정 보고서 작성과 법원 송무를 지원합니다.
+            대한상사중재원 공인 중재인으로서 간접비 손실, 물가 변동, 설계 변경 클레임을 전문적으로 처리합니다.
+          </div>
+          <div class="service-card-tags">
+            <span class="service-tag">소송 감정</span>
+            <span class="service-tag">중재</span>
+            <span class="service-tag">법원 보고서</span>
+          </div>
+        </div>
+        <div class="service-card-footer">
+          <a href="contact.html">상담 신청하기 →</a>
+        </div>
+      </div>
+
+      <!-- 5. 조합 청산 컨설팅 -->
+      <div class="service-card">
+        <div class="service-card-icon">📊</div>
+        <div class="service-card-body">
+          <div class="service-card-num">SERVICE 05</div>
+          <div class="service-card-title">조합 청산 컨설팅</div>
+          <div class="service-card-desc">
+            재건축·재개발 조합의 사업 완료 후 청산 업무 전반을 전문적으로 지원합니다.
+            공사비 정산, 조합원 분담금 검토, 잔여 재산 처리 등 복잡한 청산 절차를 정확하게 처리합니다.
+          </div>
+          <div class="service-card-tags">
+            <span class="service-tag">공사비 정산</span>
+            <span class="service-tag">분담금 검토</span>
+            <span class="service-tag">조합 해산</span>
+          </div>
+        </div>
+        <div class="service-card-footer">
+          <a href="contact.html">상담 신청하기 →</a>
+        </div>
+      </div>
+
+      <!-- 6. 아파트 PM 지원 -->
+      <div class="service-card">
+        <div class="service-card-icon">🏗️</div>
+        <div class="service-card-body">
+          <div class="service-card-num">SERVICE 06</div>
+          <div class="service-card-title">아파트 PM 지원</div>
+          <div class="service-card-desc">
+            아파트 건설 사업 기획부터 준공까지 전 과정의 프로젝트 매니지먼트(PM)를 지원합니다.
+            공사비 모니터링, 설계 변경 관리, 공정·원가 통합 관리로 사업의 성공적 완수를 돕습니다.
+          </div>
+          <div class="service-card-tags">
+            <span class="service-tag">PM</span>
+            <span class="service-tag">공정 관리</span>
+            <span class="service-tag">원가 관리</span>
+          </div>
+        </div>
+        <div class="service-card-footer">
+          <a href="contact.html">상담 신청하기 →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 하단 CTA -->
+    <div style="margin-top:60px; background:linear-gradient(135deg, #e8f0fb, #f0f4ff); border-radius:14px; padding:40px; text-align:center;">
+      <h3 style="font-size:22px; font-weight:800; color:var(--primary); margin-bottom:12px;">서비스 이용 문의</h3>
+      <p style="color:var(--text-muted); font-size:15px; line-height:1.8; margin-bottom:24px;">
+        어떤 서비스가 필요하신지 잘 모르시겠다면, 상담창구를 통해 문의해 주세요.<br>
+        전문 연구원이 상황에 맞는 최적의 서비스를 안내해 드립니다.
+      </p>
+      <a href="contact.html" class="btn btn-primary" style="display:inline-block; padding:14px 40px; background:var(--primary); color:white; border-radius:8px; font-size:15px; font-weight:800; text-decoration:none;">
+        무료 상담 신청하기 →
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -86,7 +320,7 @@
     <div class="footer-grid">
       <div class="footer-logo"><h3>아파트공사비연구원</h3><p>공정하고 신뢰할 수 있는 공사비 연구를 통해<br>국민 주거 환경 개선에 기여합니다.</p></div>
       <div class="footer-col"><h4>기관소개</h4><ul><li><a href="about.html">연구원 소개</a></li><li><a href="about.html#mission">설립목적</a></li><li><a href="about.html#org">조직도</a></li></ul></div>
-      <div class="footer-col"><h4>연구자료</h4><ul><li><a href="research.html">연구보고서</a></li><li><a href="research.html">통계자료</a></li><li><a href="research.html">정책연구</a></li></ul></div>
+      <div class="footer-col"><h4>서비스 안내</h4><ul><li><a href="research.html">공사비 검증</a></li><li><a href="research.html">공사비 협상</a></li><li><a href="research.html">건설 소송 지원</a></li></ul></div>
       <div class="footer-col"><h4>이용안내</h4><ul><li><a href="calculator.html">공사비계산기</a></li><li><a href="news.html">공지사항</a></li><li><a href="contact.html">상담창구</a></li></ul></div>
     </div>
     <div class="footer-bottom"><span>© 2025 아파트공사비연구원. All rights reserved.</span><span>개인정보처리방침 | 이용약관</span></div>
@@ -95,17 +329,5 @@
 
 <div class="modal-overlay" id="modal"><div class="modal"><h3 id="modal-title"></h3><p id="modal-msg"></p><button class="btn" onclick="closeModal()">확인</button></div></div>
 <script src="js/main.js"></script>
-<script>
-function filterResearch() {
-  const cat = document.getElementById('category-filter').value;
-  const keyword = document.getElementById('search-input').value.toLowerCase();
-  document.querySelectorAll('#research-body tr').forEach(row => {
-    const matchCat = cat === 'all' || row.dataset.cat === cat;
-    const matchKw = !keyword || row.textContent.toLowerCase().includes(keyword);
-    row.style.display = matchCat && matchKw ? '' : 'none';
-  });
-}
-document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter') filterResearch(); });
-</script>
 </body>
 </html>
