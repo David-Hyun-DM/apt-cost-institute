@@ -57,30 +57,11 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 14px;
 }
-.logo-icon {
-  width: 52px;
-  height: 52px;
-  background: var(--primary);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-}
-.logo-text h1 {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--primary);
-  letter-spacing: -0.5px;
-}
-.logo-text p {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 2px;
+.logo img {
+  height: 56px;
+  width: auto;
+  display: block;
 }
 
 /* 네비게이션 */
