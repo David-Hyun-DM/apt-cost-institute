@@ -39,75 +39,41 @@
 
 <section class="section">
   <div class="container">
+
     <!-- 검색 -->
     <div style="display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap;">
-      <input type="text" id="news-search" placeholder="검색어를 입력하세요" style="flex:1; min-width:200px; padding:10px 14px; border:1.5px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;">
-      <button onclick="filterNews()" style="padding:10px 24px; background:var(--primary); color:white; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;">검색</button>
+      <input type="text" id="news-search" placeholder="검색어를 입력하세요"
+        style="flex:1; min-width:200px; padding:10px 14px; border:1.5px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;">
+      <button onclick="filterNews()"
+        style="padding:10px 24px; background:var(--primary); color:white; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;">검색</button>
     </div>
 
+    <!-- 공지 목록 (Firebase에서 로딩) -->
     <div class="notice-list" id="news-list">
-      <div class="notice-item" data-title="2025년 하반기 공사비 심층연구 참여기관 모집 공고">
-        <span class="notice-badge new">새글</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">2025년 하반기 공사비 심층연구 참여기관 모집 공고</span>
-        <span class="notice-date">2025.05.15</span>
-      </div>
-      <div class="notice-item" data-title="아파트 공사비 표준단가 개정판 (2025) 배포 안내">
-        <span class="notice-badge">공지</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">아파트 공사비 표준단가 개정판 (2025) 배포 안내</span>
-        <span class="notice-date">2025.04.28</span>
-      </div>
-      <div class="notice-item" data-title="온라인 공사비 계산기 서비스 오픈 안내">
-        <span class="notice-badge">공지</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">온라인 공사비 계산기 서비스 오픈 안내</span>
-        <span class="notice-date">2025.04.10</span>
-      </div>
-      <div class="notice-item" data-title="2025년 정기 세미나 개최 안내 (6월 예정)">
-        <span class="notice-badge">안내</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">2025년 정기 세미나 개최 안내 (6월 예정)</span>
-        <span class="notice-date">2025.03.25</span>
-      </div>
-      <div class="notice-item" data-title="연구원 홈페이지 리뉴얼 오픈 안내">
-        <span class="notice-badge">안내</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">연구원 홈페이지 리뉴얼 오픈 안내</span>
-        <span class="notice-date">2025.03.01</span>
-      </div>
-      <div class="notice-item" data-title="2024년 공사비 연간 보고서 발간 안내">
-        <span class="notice-badge">공지</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">2024년 공사비 연간 보고서 발간 안내</span>
-        <span class="notice-date">2025.01.15</span>
-      </div>
-      <div class="notice-item" data-title="원자재 가격 급등에 따른 공사비 영향 분석 발표">
-        <span class="notice-badge">공지</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">원자재 가격 급등에 따른 공사비 영향 분석 발표</span>
-        <span class="notice-date">2024.11.20</span>
-      </div>
-      <div class="notice-item" data-title="공사비 분쟁 조정 가이드라인 배포 안내">
-        <span class="notice-badge">안내</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">공사비 분쟁 조정 가이드라인 배포 안내</span>
-        <span class="notice-date">2024.10.05</span>
-      </div>
-      <div class="notice-item" data-title="하반기 공사비 전망 보고서 발간">
-        <span class="notice-badge">공지</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">하반기 공사비 전망 보고서 발간</span>
-        <span class="notice-date">2024.07.01</span>
-      </div>
-      <div class="notice-item" data-title="연구원 창립 10주년 기념 세미나 개최 결과">
-        <span class="notice-badge">안내</span>
-        <span class="notice-title" style="cursor:pointer;" onclick="openPost(this)">연구원 창립 10주년 기념 세미나 개최 결과</span>
-        <span class="notice-date">2024.05.15</span>
+      <div style="text-align:center; padding:60px 20px; color:var(--text-muted);" id="loading-msg">
+        <div style="font-size:32px; margin-bottom:12px;">⏳</div>
+        <p style="font-size:15px;">불러오는 중...</p>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- 게시글 모달 -->
+<!-- 게시글 상세 모달 -->
 <div class="modal-overlay" id="post-modal" style="align-items:flex-start; padding-top:80px;">
-  <div class="modal" style="max-width:600px; text-align:left; width:90%;">
-    <h3 id="post-title" style="font-size:18px; margin-bottom:16px; line-height:1.4;"></h3>
-    <div style="background:#f5f7fa; border-radius:8px; padding:20px; margin-bottom:20px; font-size:14px; color:var(--text-muted); line-height:1.8;" id="post-body">
-      공지 내용이 여기에 표시됩니다. 실제 운영 시 각 공지의 본문 내용을 입력하시면 됩니다.
+  <div class="modal" style="max-width:640px; text-align:left; width:90%;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:16px;">
+      <div>
+        <span id="post-badge" class="notice-badge" style="margin-bottom:8px; display:inline-block;"></span>
+        <h3 id="post-title" style="font-size:18px; line-height:1.5; color:var(--primary);"></h3>
+        <div id="post-date" style="font-size:13px; color:var(--text-muted); margin-top:6px;"></div>
+      </div>
+      <button onclick="document.getElementById('post-modal').classList.remove('show')"
+        style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-muted); line-height:1; flex-shrink:0;">✕</button>
     </div>
-    <button class="btn" onclick="document.getElementById('post-modal').classList.remove('show')" style="background:var(--primary); color:white; width:100%;">닫기</button>
+    <div style="background:#f5f7fa; border-radius:8px; padding:24px; margin-bottom:20px; font-size:15px; color:var(--text); line-height:2; white-space:pre-wrap;" id="post-body"></div>
+    <button onclick="document.getElementById('post-modal').classList.remove('show')"
+      style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit;">닫기</button>
   </div>
 </div>
 
@@ -118,7 +84,7 @@
     <div class="footer-grid">
       <div class="footer-logo"><h3>아파트공사비연구원</h3><p>공정하고 신뢰할 수 있는 공사비 연구를 통해<br>국민 주거 환경 개선에 기여합니다.</p></div>
       <div class="footer-col"><h4>기관소개</h4><ul><li><a href="about.html">연구원 소개</a></li><li><a href="about.html#mission">설립목적</a></li><li><a href="about.html#org">조직도</a></li></ul></div>
-      <div class="footer-col"><h4>연구자료</h4><ul><li><a href="research.html">연구보고서</a></li><li><a href="research.html">통계자료</a></li><li><a href="research.html">정책연구</a></li></ul></div>
+      <div class="footer-col"><h4>서비스 안내</h4><ul><li><a href="research.html">공사비 검증</a></li><li><a href="research.html">공사비 협상</a></li><li><a href="research.html">건설 소송 지원</a></li></ul></div>
       <div class="footer-col"><h4>이용안내</h4><ul><li><a href="calculator.html">공사비계산기</a></li><li><a href="news.html">공지사항</a></li><li><a href="contact.html">상담창구</a></li></ul></div>
     </div>
     <div class="footer-bottom"><span>© 2025 아파트공사비연구원. All rights reserved.</span><span>개인정보처리방침 | 이용약관</span></div>
@@ -126,19 +92,95 @@
 </footer>
 
 <script src="js/main.js"></script>
-<script>
-function openPost(el) {
-  const title = el.closest('.notice-item').dataset.title;
-  document.getElementById('post-title').textContent = title;
+
+<!-- Firebase에서 공지사항 로딩 -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBI1VSgzPHDjkCjYbzZqj21c1lsLqZv0KY",
+  authDomain: "apt-cost-institute.firebaseapp.com",
+  projectId: "apt-cost-institute",
+  storageBucket: "apt-cost-institute.firebasestorage.app",
+  messagingSenderId: "948279454478",
+  appId: "1:948279454478:web:47106a141de528c77a055f"
+});
+const db = getFirestore(app);
+
+// 전체 공지 데이터 저장 (검색용)
+let allNotices = [];
+
+function formatDate(ts) {
+  if (!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function badgeClass(type) {
+  if (type === '새글') return 'new';
+  if (type === '공지') return '';
+  return 'info'; // 안내
+}
+
+function renderNotices(list) {
+  const container = document.getElementById('news-list');
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:80px 20px; color:var(--text-muted);">
+        <div style="font-size:48px; margin-bottom:16px;">📋</div>
+        <p style="font-size:16px;">등록된 공지사항이 없습니다.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(n => `
+    <div class="notice-item" data-id="${n.id}">
+      <span class="notice-badge ${badgeClass(n.type)}">${n.type || '공지'}</span>
+      <span class="notice-title" style="cursor:pointer;" onclick="openPost('${n.id}')">${n.title}</span>
+      <span class="notice-date">${formatDate(n.createdAt)}</span>
+    </div>
+  `).join('');
+}
+
+// Firebase에서 공지 불러오기
+try {
+  const q = query(collection(db, 'notices'), orderBy('createdAt', 'desc'));
+  const snap = await getDocs(q);
+  allNotices = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  renderNotices(allNotices);
+} catch(e) {
+  document.getElementById('news-list').innerHTML = `
+    <div style="text-align:center; padding:60px 20px; color:var(--text-muted);">
+      <p>공지사항을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</p>
+    </div>`;
+}
+
+// 게시글 열기
+window.openPost = function(id) {
+  const n = allNotices.find(x => x.id === id);
+  if (!n) return;
+  document.getElementById('post-badge').textContent = n.type || '공지';
+  document.getElementById('post-badge').className = 'notice-badge ' + badgeClass(n.type);
+  document.getElementById('post-title').textContent = n.title;
+  document.getElementById('post-date').textContent = formatDate(n.createdAt);
+  document.getElementById('post-body').textContent = n.content || '';
   document.getElementById('post-modal').classList.add('show');
-}
-function filterNews() {
-  const kw = document.getElementById('news-search').value.toLowerCase();
-  document.querySelectorAll('#news-list .notice-item').forEach(item => {
-    item.style.display = !kw || item.dataset.title.toLowerCase().includes(kw) ? '' : 'none';
-  });
-}
-document.getElementById('news-search').addEventListener('keydown', e => { if (e.key === 'Enter') filterNews(); });
+};
+
+// 검색
+window.filterNews = function() {
+  const kw = document.getElementById('news-search').value.toLowerCase().trim();
+  const filtered = !kw ? allNotices : allNotices.filter(n =>
+    n.title?.toLowerCase().includes(kw) || n.content?.toLowerCase().includes(kw)
+  );
+  renderNotices(filtered);
+};
+
+document.getElementById('news-search').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.filterNews();
+});
 </script>
+
 </body>
 </html>
