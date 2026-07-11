@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연구자료 - 아파트공사비연구원</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="top-bar"><div class="container"><a href="#">이메일</a><a href="#">사이트맵</a><a href="#">English</a></div></div>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="아파트 공사비 연구원">
+      </a>
+      <button class="menu-toggle">☰</button>
+      <nav><ul>
+        <li><a href="index.html">홈</a></li>
+        <li><a href="about.html">기관소개</a></li>
+        <li><a href="research.html">서비스 안내</a></li>
+        <li><a href="materials.html" class="active">연구자료</a></li>
+        <li><a href="calculator.html">공사비계산기</a></li>
+        <li><a href="news.html">공지사항</a></li>
+        <li><a href="contact.html">상담창구</a></li>
+      </ul></nav>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">홈 &gt; <span>연구자료</span></div>
+    <h2>연구자료</h2>
+    <p>아파트 공사비 관련 연구보고서, 통계자료, 정책연구를 제공합니다</p>
+  </div>
+</div>
+
+<!-- 검색 -->
+<div style="background:white; border-bottom:1px solid var(--border); padding:20px 0;">
+  <div class="container">
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <select id="category-filter" style="padding:10px 14px; border:1.5px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;">
+        <option value="all">전체 분류</option>
+        <option value="연구보고서">연구보고서</option>
+        <option value="통계자료">통계자료</option>
+        <option value="정책연구">정책연구</option>
+      </select>
+      <input type="text" id="search-input" placeholder="검색어를 입력하세요" style="flex:1; min-width:200px; padding:10px 14px; border:1.5px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;">
+      <button onclick="filterResearch()" style="padding:10px 24px; background:var(--primary); color:white; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;">검색</button>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <table class="data-table" id="research-table">
+      <thead>
+        <tr>
+          <th style="width:120px">분류</th>
+          <th>제목</th>
+          <th style="width:110px">발행일</th>
+          <th style="width:90px">다운로드</th>
+        </tr>
+      </thead>
+      <tbody id="research-body">
+        <tr><td colspan="4" style="text-align:center; padding:40px; color:var(--text-muted);">불러오는 중...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-logo"><h3>아파트공사비연구원</h3><p>공정하고 신뢰할 수 있는 공사비 연구를 통해<br>국민 주거 환경 개선에 기여합니다.</p></div>
+      <div class="footer-col"><h4>기관소개</h4><ul><li><a href="about.html">연구원 소개</a></li><li><a href="about.html#mission">설립목적</a></li><li><a href="about.html#org">조직도</a></li></ul></div>
+      <div class="footer-col"><h4>서비스 안내</h4><ul><li><a href="research.html">공사비 검증</a></li><li><a href="research.html">공사비 협상</a></li><li><a href="research.html">건설 소송 지원</a></li></ul></div>
+      <div class="footer-col"><h4>이용안내</h4><ul><li><a href="materials.html">연구자료</a></li><li><a href="calculator.html">공사비계산기</a></li><li><a href="news.html">공지사항</a></li><li><a href="contact.html">상담창구</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 아파트공사비연구원. All rights reserved.</span><span>개인정보처리방침 | 이용약관</span></div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal"><div class="modal"><h3 id="modal-title"></h3><p id="modal-msg"></p><button class="btn" onclick="closeModal()">확인</button></div></div>
+<script src="js/main.js"></script>
+
+<!-- Firebase에서 연구자료 로딩 -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBI1VSgzPHDjkCjYbzZqj21c1lsLqZv0KY",
+  authDomain: "apt-cost-institute.firebaseapp.com",
+  projectId: "apt-cost-institute",
+  storageBucket: "apt-cost-institute.firebasestorage.app",
+  messagingSenderId: "948279454478",
+  appId: "1:948279454478:web:47106a141de528c77a055f"
+});
+const db = getFirestore(app);
+
+let allMaterials = [];
+
+function renderMaterials(list) {
+  const tbody = document.getElementById('research-body');
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:60px 20px; color:var(--text-muted);">등록된 연구자료가 없습니다.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(r => `
+    <tr>
+      <td><span class="tag">${r.category || '연구보고서'}</span></td>
+      <td>${r.title}</td>
+      <td>${r.date || '-'}</td>
+      <td>${r.fileUrl ? `<a href="${r.fileUrl}" target="_blank" class="download-btn">PDF</a>` : `<span style="color:var(--text-muted); font-size:13px;">준비중</span>`}</td>
+    </tr>
+  `).join('');
+}
+
+try {
+  const q = query(collection(db, 'research'), orderBy('createdAt', 'desc'));
+  const snap = await getDocs(q);
+  allMaterials = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  renderMaterials(allMaterials);
+} catch (e) {
+  document.getElementById('research-body').innerHTML =
+    '<tr><td colspan="4" style="text-align:center; padding:60px 20px; color:var(--text-muted);">연구자료를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</td></tr>';
+}
+
+window.filterResearch = function() {
+  const cat = document.getElementById('category-filter').value;
+  const kw = document.getElementById('search-input').value.toLowerCase().trim();
+  const filtered = allMaterials.filter(r => {
+    const matchCat = cat === 'all' || r.category === cat;
+    const matchKw = !kw || (r.title||'').toLowerCase().includes(kw) || (r.description||'').toLowerCase().includes(kw);
+    return matchCat && matchKw;
+  });
+  renderMaterials(filtered);
+};
+
+document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter') window.filterResearch(); });
+</script>
+</body>
+</html>
